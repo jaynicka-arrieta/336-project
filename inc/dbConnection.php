@@ -1,6 +1,4 @@
-
 <?php
-
 function startConnection($dbname="fortnite") {
     //Creating database connection
     $host = "localhost";

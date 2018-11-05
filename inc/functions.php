@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title> </title>
-    </head>
-    <body>
+<?php
 
-    </body>
-</html>
+    function displayCartCount() {
+        echo count($_SESSION['cart']);
+    }
+
+?>
