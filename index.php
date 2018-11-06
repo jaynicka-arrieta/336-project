@@ -6,6 +6,7 @@
     //post submit
     session_start();
     
+    
     if (!isset($_SESSION['cart'])) {
         $_SESSION['cart'] = array();
     }
@@ -35,7 +36,9 @@
             array_push($_SESSION['cart'], $newItem);
         }
     }
-    
+
+
+
     //added by sam
     function displayCategories() { 
         global $dbConn;
