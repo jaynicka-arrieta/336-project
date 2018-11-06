@@ -1,5 +1,5 @@
 <?php
-include '../../inc/dbConnection.php';
+include 'inc/dbConnection.php';
 $dbConn = startConnection("fortnite");
 
 
