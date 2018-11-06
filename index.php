@@ -1,5 +1,8 @@
 <?php
+//Project Index
     include 'inc/functions.php';
+    include 'inc/dbConnection.php';
+    $dbConn = startConnection("fortnite");
     //post submit
     session_start();
     
@@ -31,6 +34,87 @@
             $newItem['quantity'] = 1;
             array_push($_SESSION['cart'], $newItem);
         }
+    }
+    
+    //added by sam
+    function displayCategories() { 
+        global $dbConn;
+        
+        $sql = "SELECT * FROM table_category ORDER BY catName";
+        $stmt = $dbConn->prepare($sql);
+        $stmt->execute();
+        $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach ($records as $record) {
+            echo "<option value='".$record['catID']."'>" . $record['catName'] . "</option>";
+        }
+    }
+    function filterProducts() {
+        global $dbConn;
+        
+        $namedParameters = array();
+        $product = $_GET['productName'];
+        
+        //This SQL works but it doesn't prevent SQL INJECTION (due to the single quotes)
+        //$sql = "SELECT * FROM om_product
+        //        WHERE productName LIKE '%$product%'";
+      
+        $sql = "SELECT * FROM table_product WHERE 1"; //Gettting all records from database
+        
+        if (!empty($product)){
+            //This SQL prevents SQL INJECTION by using a named parameter
+             $sql .=  " AND productName LIKE :product OR productDes LIKE :product";
+             $namedParameters[':product'] = "%$product%";
+        }
+        
+        if (!empty($_GET['category'])){
+            //This SQL prevents SQL INJECTION by using a named parameter
+             $sql .=  " AND catID =  :category";
+              $namedParameters[':category'] = $_GET['category'] ;
+        }
+        
+        if(!empty($_GET['priceFrom'])) {
+            $sql .= " AND price >= :priceFrom";
+            $namedParameters["priceFrom"] = $_GET['priceFrom'];
+        }
+        
+        if(!empty($_GET['priceTo'])) {
+            $sql .= " AND price <= :priceTo";
+            $namedParameters["priceTo"] = $_GET['priceTo'];
+        }
+        
+        //echo $sql;
+        
+        if (isset($_GET['orderBy'])) {
+            
+            if ($_GET['orderBy'] == "productPrice") {
+                
+                $sql .= " ORDER BY price";
+            } else {
+                
+                  $sql .= " ORDER BY productName";
+            }
+            
+            
+        }
+    
+        $stmt = $dbConn->prepare($sql);
+        $stmt->execute($namedParameters);
+        $records = $stmt->fetchAll(PDO::FETCH_ASSOC);  
+        //print_r($records);
+        
+        
+        foreach ($records as $record) {
+            
+            echo "<a href='purchaseHistory.php?productID=".$record['productID']."'>";
+            echo $record['productName'];
+            echo "</a> ";
+            echo $record['productDes'] . " " . $record['price'] . " V-Bucks" .  "<br>";   
+            
+        }
+    
+    
+    }
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +136,7 @@
             <nav class='navbar navbar-default - navbar-fixed-top'>
                 <div class='container-fluid'>
                     <div class='navbar-header'>
-                        <a class='navbar-brand' href='#'>Fortnite Mini Mart</a>
+                        <a class='navbar-brand' href='#'>Fortnite MiniMart</a>
                     </div>
                     <ul class='nav navbar-nav'>
                         <li><a href='index.php'>Home</a></li>
@@ -65,7 +149,7 @@
             <br /> <br /> <br />
             
             <header>
-                <h1>Welcome to Fortnite Mini Mart!</h1>
+                <h1>Welcome to Fortnite MiniMart!</h1>
             </header>
             </br></br>
             
@@ -77,7 +161,8 @@
                 
                 <b>Category:</b> 
                 <select name="category">
-                   <option value=""> Select one </option>  
+                   <option value=""> Select one </option>
+                   <?=displayCategories()?>
                 </select>
                 </br></br>
                 
@@ -92,8 +177,19 @@
             </form>
             </br></br>
             <hr>
+            <?php
+                if($_GET['submit'] == "Search!") {
+                    echo "<h2> Results: </h2>";
+                    // echo "<div id='dv2'";
+                    filterProducts();
+                    // echo "</div";
+                }
+            ?>
             
         </div>
     </div>
     </body>
 </html>
+
+
+
