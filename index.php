@@ -103,16 +103,19 @@
         $records = $stmt->fetchAll(PDO::FETCH_ASSOC);  
         //print_r($records);
         
-        
+        echo "<table class='table'>";
         foreach ($records as $record) {
+            echo '<tr>';
+            // echo "<a href='purchaseHistory.php?productID=".$record['productID']."'>";
+            // echo $record['productName'];
             
-            echo "<a href='purchaseHistory.php?productID=".$record['productID']."'>";
-            echo $record['productName'];
-            echo "</a> ";
-            echo $record['productDes'] . " " . $record['price'] . " V-Bucks" .  "<br>";   
+            echo "<td><img src='" . $record['productImg'] . " '></td>";
+            echo "<td><h4>" . $record['productName'] . "</h4></td>";
+            echo "<td><h4>$" . " " . $record['price'] . " V-Bucks" . "</h4></td>";
             
+            echo '</tr>';
         }
-    
+        echo "</table>";
     
     }
 ?>
@@ -128,6 +131,12 @@
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <title>Products Page</title>
     </head>
+    <link rel='stylesheet' href='css/styles.css' type='text/css' />
+    <style>
+        img {
+            width:200px;
+        }
+    </style>
     <body>
     <div class='container'>
         <div class='text-center'>
