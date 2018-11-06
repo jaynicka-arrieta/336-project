@@ -94,7 +94,7 @@
                 
                   $sql .= " ORDER BY productName";
             }
-            
+    
             
         }
     
@@ -106,11 +106,10 @@
         echo "<table class='table'>";
         foreach ($records as $record) {
             echo '<tr>';
-            // echo "<a href='purchaseHistory.php?productID=".$record['productID']."'>";
-            // echo $record['productName'];
-            
+            echo "<a href='productInfo.php?productID=".$record['productID']."'>";
+            //echo $record['productID'];
             echo "<td><img src='" . $record['productImg'] . " '></td>";
-            echo "<td><h4>" . $record['productName'] . "</h4></td>";
+            echo "<td><h4>[<a onclick='openModal()' target='productModal' href='productInfo.php?productID=".$record['productID']."'>".$record['productName']."</a>]</h4></td>";
             echo "<td><h4>$" . " " . $record['price'] . " V-Bucks" . "</h4></td>";
             
             echo '</tr>';
@@ -130,6 +129,16 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <title>Products Page</title>
+        
+        <script>
+            
+            function openModal() {
+                
+                $('#myModal').modal("show");
+            }
+            
+        </script>
+        
     </head>
     <link rel='stylesheet' href='css/styles.css' type='text/css' />
     <style>
@@ -197,6 +206,27 @@
             
         </div>
     </div>
+    
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Product Info</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <iframe name="productModal" width="450" height="250"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+      </div>
+    </div>
+  </div>
+</div>            
+    
     </body>
 </html>
 
