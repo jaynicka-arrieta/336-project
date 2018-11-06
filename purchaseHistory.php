@@ -1,7 +1,7 @@
 <?php
 
 include '../../inc/dbConnection.php';
-$dbConn = startConnection("ottermart");
+$dbConn = startConnection("fortnite");
 
 function displayProductInfo(){
     global $dbConn;

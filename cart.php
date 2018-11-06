@@ -3,7 +3,8 @@
 
     session_start();
     include 'inc/functions.php';
-
+    include '../../inc/dbConnection.php';
+    $dbConn = startConnection("fortnite");
 ?>
 <!DOCTYPE html>
 <html>
