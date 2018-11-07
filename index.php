@@ -94,14 +94,11 @@
                 
                   $sql .= " ORDER BY productName";
             }
-            
-            
         }
     
         $stmt = $dbConn->prepare($sql);
         $stmt->execute($namedParameters);
         $records = $stmt->fetchAll(PDO::FETCH_ASSOC);  
-        //print_r($records);
         
         echo "<table class='table'>";
         foreach ($records as $record) {
@@ -111,7 +108,7 @@
             
             echo "<td><img src='" . $record['productImg'] . " '></td>";
             echo "<td><h4>" . $record['productName'] . "</h4></td>";
-            echo "<td><h4>$" . " " . $record['price'] . " V-Bucks" . "</h4></td>";
+            echo "<td><h4>" . " " . $record['price'] . " V-Bucks" . "</h4></td>";
             
             echo '</tr>';
         }
@@ -158,7 +155,7 @@
             <br /> <br /> <br />
             
             <header>
-                <h1>Welcome to Fortnite MiniMart!</h1>
+                <div id="dv_header"><h1>Welcome to Fortnite MiniMart!</h1></div>
             </header>
             </br></br>
             
