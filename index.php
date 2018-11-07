@@ -6,22 +6,23 @@
     //post submit
     session_start();
     
+    
     if (!isset($_SESSION['cart'])) {
         $_SESSION['cart'] = array();
     }
     
-    if (isset($_POST['productName'])) {
-        $_SESSION['cart'] = $_POST['productName'];
-    }
+    // if (isset($_POST['productName'])) {
+    //     $_SESSION['cart'] = $_POST['productName'];
+    // }
     
     if (isset($_POST['productName'])) {
         
         $newItem = array();
-        $newItem['productName'] = $_POST['itemName'];
-        $newItem['productDes'] = $_POST['itemDes'];
-        $newItem['price'] = $_POST['itemPrice'];
-        $newItem['productImg'] = $_POST['itemImg'];
-        $newItem['productID'] = $_POST['itemID'];
+        $newItem['productName'] = $_POST['productName'];
+        $newItem['productDes'] = $_POST['productDes'];
+        $newItem['price'] = $_POST['productPrice'];
+        $newItem['productImg'] = $_POST['productImg'];
+        $newItem['productID'] = $_POST['productID'];
         
         foreach ($_SESSION['cart'] as &$item) {
             if ($newItem['productID'] == $item['productID']) {
@@ -35,7 +36,9 @@
             array_push($_SESSION['cart'], $newItem);
         }
     }
-    
+
+
+
     //added by sam
     function displayCategories() { 
         global $dbConn;
@@ -102,6 +105,7 @@
         
         echo "<table class='table'>";
         foreach ($records as $record) {
+            $productID = $record['productID'];
             echo '<tr>';
             // echo "<a href='productInfo.php?productID=".$record['productID']."'>";
             //echo $record['productID'];
@@ -110,7 +114,15 @@
             echo "<td><h4>[<a onclick='openModal()' target='productModal' href='productInfo.php?productID=".$record['productID']."'>". "More Info" ."</a>]</h4></td>";
             echo "<td><h4>" . " " . $record['price'] . " V-Bucks" . "</h4></td>";
            
-            
+            echo "<form method='POST'>";
+            echo "<input type='hidden' name='productID' value='$productID'>";
+            //echo " $productID - ".$_POST['productID']." ";
+            if ($_POST['productID'] == $productID) {
+                echo '<td><button class = "btn btn-success">Added</button></td>';
+            } else {
+                echo '<td><button class="btn btn-warning">Add</button></td>';
+            }
+            echo '</form>';
             echo '</tr>';
         }
         echo "</table>";

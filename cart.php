@@ -1,6 +1,13 @@
 <?php
     //Project cart
-
+    
+    if (isset($_POST['removeId'])) {
+        foreach ($_SESSION['cart'] as $itemKey => $item) {
+            if ($item['id'] == $_POST['removeId']) {
+                unset($_SESSION['cart'][$itemKey]);
+            }
+        }
+    }
     session_start();
     include 'inc/functions.php';
     include 'inc/dbConnection.php';
