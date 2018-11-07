@@ -17,6 +17,7 @@
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <title>Shopping Cart</title>
     </head>
+    <link rel='stylesheet' href='css/styles.css' type='text/css' />
     <body>
         <div class='container'>
             <div class='text-center'>
@@ -25,7 +26,7 @@
                 <nav class='navbar navbar-default - navbar-fixed-top'>
                     <div class='container-fluid'>
                         <div class='navbar-header'>
-                            <a class='navbar-brand' href='#'>Fortnite MiniMart</a>
+                            <a class='navbar-brand' href='#'><img src="https://fontmeme.com/permalink/181107/4bb525cda1d6a2d85d45e7f20cd305b1.png" alt="tattoo-fonts" width="200px"></a>
                         </div>
                         <ul class='nav navbar-nav'>
                         <li><a href='index.php'>Home</a></li>

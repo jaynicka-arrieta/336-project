@@ -103,13 +103,13 @@
         echo "<table class='table'>";
         foreach ($records as $record) {
             echo '<tr>';
-            echo "<a href='productInfo.php?productID=".$record['productID']."'>";
+            // echo "<a href='productInfo.php?productID=".$record['productID']."'>";
             //echo $record['productID'];
             echo "<td><img src='" . $record['productImg'] . " '></td>";
             echo "<td><h4>" . $record['productName'] . "</h4></td>";
+            echo "<td><h4>[<a onclick='openModal()' target='productModal' href='productInfo.php?productID=".$record['productID']."'>". "More Info" ."</a>]</h4></td>";
             echo "<td><h4>" . " " . $record['price'] . " V-Bucks" . "</h4></td>";
-            echo "<td><h4>[<a onclick='openModal()' target='productModal' href='productInfo.php?productID=".$record['productID']."'>".$record['productName']."</a>]</h4></td>";
-            echo "<td><h4>$" . " " . $record['price'] . " V-Bucks" . "</h4></td>";
+           
             
             echo '</tr>';
         }
@@ -144,8 +144,22 @@
         img {
             width:200px;
         }
+        body {
+            background-image: url("img/4685.jpg"); /* new tag */
+            background-size: 100%;
+        } 
+        header {
+            text-align:center;
+            width: 100%;
+        }
+        #img_header {
+            width:650px;
+        }
     </style>
+    
+    
     <body>
+    
     <div class='container'>
         <div class='text-center'>
             
@@ -153,7 +167,7 @@
             <nav class='navbar navbar-default - navbar-fixed-top'>
                 <div class='container-fluid'>
                     <div class='navbar-header'>
-                        <a class='navbar-brand' href='#'>Fortnite MiniMart</a>
+                        <a class='navbar-brand' href='#'><img src="https://fontmeme.com/permalink/181107/4bb525cda1d6a2d85d45e7f20cd305b1.png" alt="tattoo-fonts"></a>
                     </div>
                     <ul class='nav navbar-nav'>
                         <li><a href='index.php'>Home</a></li>
@@ -166,30 +180,43 @@
             <br /> <br /> <br />
             
             <header>
-                <div id="dv_header"><h1>Welcome to Fortnite MiniMart!</h1></div>
+                <!--<div id="dv_header"><h1>Welcome to Fortnite MiniMart!</h1></div>-->
+                <img src="https://fontmeme.com/permalink/181107/4bb525cda1d6a2d85d45e7f20cd305b1.png" alt="tattoo-fonts" id="img_header">
             </header>
             </br></br>
             
             <!-- Search Form -->
             <center><div id="dv">
             <form>
+                <table>
+                    <tbody>
+                    <tr>
+                    <td><b>Product:</b> <input type="text" name="productName" placeholder="Product keyword" /> </br></br></td>
+                    <td>
+                        <b>Category:</b> 
+                            <select name="category">
+                               <option value=""> Select one </option>
+                               <?=displayCategories()?>
+                            </select>
+                        </br></br>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>
+                        <b>Price:</b> From: <input type="text" name="priceFrom" size="7"  /> 
+                        To: <input type="text" name="priceTo" size="7" />
+                    </br></br>
+                    </td>
+                    <td>
+                        <b>Order By:</b>
+                        Price <input type="radio" name="orderBy" value="productPrice">
+                        Name <input type="radio" name="orderBy" value="productName">
+                        </br></br>
+                    </td>
+                    </tr>
+                    </tbody>
+                </table>
                 
-                <b>Product:</b> <input type="text" name="productName" placeholder="Product keyword" /> </br></br>
-                
-                <b>Category:</b> 
-                <select name="category">
-                   <option value=""> Select one </option>
-                   <?=displayCategories()?>
-                </select>
-                </br></br>
-                
-                <b>Price:</b> From: <input type="text" name="priceFrom" size="7"  /> 
-                 To: <input type="text" name="priceTo" size="7" />
-                </br></br>
-                <b>Order By:</b>
-                Price <input type="radio" name="orderBy" value="productPrice">
-                Name <input type="radio" name="orderBy" value="productName">
-                </br></br>
                 <input type="submit" name="submit" value="Search!"/>
             </form>
             </br></br>
