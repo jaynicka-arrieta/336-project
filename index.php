@@ -2,7 +2,7 @@
 //Project Index
     include 'inc/functions.php';
     include 'inc/dbConnection.php';
-    $dbConn = startConnection("fornite");
+    $dbConn = startConnection("fortnite");
     //post submit
     session_start();
     
