@@ -1,17 +1,24 @@
 <?php
     //Project cart
-    
-    if (isset($_POST['removeId'])) {
-        foreach ($_SESSION['cart'] as $itemKey => $item) {
-            if ($item['id'] == $_POST['removeId']) {
-                unset($_SESSION['cart'][$itemKey]);
-            }
-        }
-    }
     session_start();
     include 'inc/functions.php';
     include 'inc/dbConnection.php';
     $dbConn = startConnection("fortnite");
+    if (isset($_POST['removeId'])) {
+        foreach ($_SESSION['cart'] as $itemKey => $item) {
+            if ($item['productID'] == $_POST['removeId']) {
+                unset($_SESSION['cart'][$itemKey]);
+            }
+        }
+    }
+    if(isset($_POST['itemId'])) {
+        foreach($_SESSION['cart'] as &$item) {
+            if($item['productID'] == $_POST['itemId']) {
+                $item['quantity'] = $_POST['update'];
+            }
+        }
+     }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -45,6 +52,7 @@
                 </nav>
                 <br /> <br /> <br />
                 <h2>Shopping Cart</h2>
+                <?php displayCart(); ?>
             </div>
         </div>
     </body>

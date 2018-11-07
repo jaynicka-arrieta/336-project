@@ -52,8 +52,14 @@
             echo "<option value='".$record['catID']."'>" . $record['catName'] . "</option>";
         }
     }
+    
+
+    
+  
+    
     function filterProducts() {
         global $dbConn;
+        global $items;
         
         $namedParameters = array();
         $product = $_GET['productName'];
@@ -103,30 +109,42 @@
         $stmt->execute($namedParameters);
         $records = $stmt->fetchAll(PDO::FETCH_ASSOC);  
         
-        echo "<table class='table'>";
-        foreach ($records as $record) {
-            $productID = $record['productID'];
-            echo '<tr>';
-            // echo "<a href='productInfo.php?productID=".$record['productID']."'>";
-            //echo $record['productID'];
-            echo "<td><img src='" . $record['productImg'] . " '></td>";
-            echo "<td><h4>" . $record['productName'] . "</h4></td>";
-            echo "<td><h4>[<a onclick='openModal()' target='productModal' href='productInfo.php?productID=".$record['productID']."'>". "More Info" ."</a>]</h4></td>";
-            echo "<td><h4>" . " " . $record['price'] . " V-Bucks" . "</h4></td>";
-           
-            echo "<form method='POST'>";
-            echo "<input type='hidden' name='productID' value='$productID'>";
-            //echo " $productID - ".$_POST['productID']." ";
-            if ($_POST['productID'] == $productID) {
-                echo '<td><button class = "btn btn-success">Added</button></td>';
-            } else {
-                echo '<td><button class="btn btn-warning">Add</button></td>';
+        if(isset($records)) {  
+            echo "<table class='table'>";
+            foreach ($records as $record) {
+                $productID = $record['productID'];
+                $productName = $record['productName'];
+                $productPrice = $record['price'];
+                $productImage = $record['productImg'];
+                
+                
+                
+                echo '<tr>';
+                // echo "<a href='productInfo.php?productID=".$record['productID']."'>";
+                //echo $record['productID'];
+                echo "<td><img src='" . $productImage . " '></td>";
+                echo "<td><h4>" . $productName . "</h4></td>";
+                echo "<td><h4>[<a onclick='openModal()' target='productModal' href='productInfo.php?productID=".$record['productID']."'>". "More Info" ."</a>]</h4></td>";
+                echo "<td><h4>" . " " . $productPrice . " V-Bucks" . "</h4></td>";
+               
+                // Hidden input element
+                echo "<form method='post'>";
+                echo "<input type='hidden' name='productName' value='$productName'>";
+                echo "<input type='hidden' name='productPrice' value='$productPrice'>";
+                echo "<input type='hidden' name='productImage' value='$productImage'>";
+                echo "<input type='hidden' name='productID' value='$productID'>";
+                
+                if ($_POST['productID'] == $productID) {
+                    echo '<td><button class = "btn btn-success">Added</button></td>';
+                } else {
+                    echo '<td><button class="btn btn-warning">Add</button></td>';
+                }
+                echo '</tr>';
+                echo '</form>';
+                
             }
-            echo '</form>';
-            echo '</tr>';
+            echo "</table>";
         }
-        echo "</table>";
-    
     }
 ?>
 
