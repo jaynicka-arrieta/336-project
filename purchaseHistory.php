@@ -1,6 +1,6 @@
 <?php
 
-include '../../inc/dbConnection.php';
+include 'inc/dbConnection.php';
 $dbConn = startConnection("fortnite");
 
 function displayProductInfo(){
@@ -8,8 +8,8 @@ function displayProductInfo(){
     
     $productId = $_GET['productId'];
     $sql = "SELECT * 
-            FROM om_purchase 
-            NATURAL RIGHT JOIN om_product 
+            FROM table_purchase 
+            NATURAL RIGHT JOIN table_product 
             WHERE productId = $productId";
     $stmt = $dbConn->prepare($sql);
     $stmt->execute();
@@ -28,9 +28,9 @@ function displayProductInfo(){
     echo "<th>Quantity</th><th>Unit Price</th><th> Purchase Date</th>";
     foreach ($records as $record) {
         echo "<tr>";    
-        echo "<td>" . $record[quantity] . "</td>";
-        echo "<td>" . $record[unitPrice] . "</td>";
-        echo "<td>" . $record[purchaseDate] . "</td>";
+        echo "<td>" . $record['quanitity'] . "</td>";
+        echo "<td>" . $record['unitPrice'] . "</td>";
+        echo "<td>" . $record['purchaseDate'] . "</td>";
         echo "</tr>";  
     }
     echo "</table>";

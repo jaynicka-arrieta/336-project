@@ -194,6 +194,10 @@
                 <input type="submit" name="submit" value="Search!"/>
             </form>
             </br></br>
+            <form action="purchaseHistory.php">
+                <input type="submit" name="history" value="Purchase History"/>
+            </form>
+            </br></br>
             <hr>
             <?php
                 if($_GET['submit'] == "Search!") {
