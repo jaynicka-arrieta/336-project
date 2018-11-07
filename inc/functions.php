@@ -3,6 +3,7 @@
     function displayCartCount() {
         echo count($_SESSION['cart']);
     }
+    
     function displayCart() {
         //If there are items in the Session, display them
         if(isset($_SESSION['cart'])) {
@@ -15,7 +16,7 @@
                 echo '<tr>';
                 
                 //Display data for item
-                echo "<td><img src='" . $item['productImg'] . " '></td>";
+                //echo "<td><img src='" . $item['productImg'] . " '></td>";
                 echo "<td><h4>" . $item['productName'] . "</h4></td>";
                 //echo "<td><h4>" . $item['productDes'] . "</h4></td>";
                 echo "<td><h4>" . $item['price'] . " V-Bucks" . "</h4></td>";
@@ -24,7 +25,7 @@
                 echo '<form method="post">';
                 echo "<input type='hidden' name='itemId' value='$itemId'>";
                 echo "<td><input type='text' name='update' class='form-control' placeHolder='$itemQuant'></td>";
-                echo '<td><button class="btn btn-danger">Update<button></td>';
+                echo '<td><button name= "updatebtn" class="btn btn-danger">Update<button></td>';
                 echo '</form>';
                 
                 //Create seperate form for delete
@@ -38,7 +39,14 @@
             echo "</table>";
         }
         
+        echo "<form method = 'POST'>";
+        echo "<center> <input type='submit' name='clear' value='Empty Cart'/> </center>";
+        echo "</form>";
+                
+        if (isset($_POST['clear'])) {
+            unset($_SESSION['cart']);
+        }
+        
     }
-   
 
 ?>
