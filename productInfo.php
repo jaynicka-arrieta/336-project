@@ -25,12 +25,19 @@ function getProductInfo($productID) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Product Info</title>
+        <title> Product Info </title>
     </head>
+    <style> 
+        img {
+            width: 20%;
+        }
+    </style>
     <body>
     <h3><?=$productInfo['productName']?></h3>
-     <?=$productInfo['productDes']?><br>
-     <img src='<?=$productInfo['productImg']?>' height='75'/>
- 
+     Description: <?=$productInfo['productDes']?>
+     <br>
+     <br>
+     <img src='<?=$productInfo['productImg']?>'/>
+     
     </body>
 </html>

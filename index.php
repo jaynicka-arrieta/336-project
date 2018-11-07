@@ -6,22 +6,23 @@
     //post submit
     session_start();
     
+    
     if (!isset($_SESSION['cart'])) {
         $_SESSION['cart'] = array();
     }
     
-    if (isset($_POST['productName'])) {
-        $_SESSION['cart'] = $_POST['productName'];
-    }
+    // if (isset($_POST['productName'])) {
+    //     $_SESSION['cart'] = $_POST['productName'];
+    // }
     
     if (isset($_POST['productName'])) {
         
         $newItem = array();
-        $newItem['productName'] = $_POST['itemName'];
-        $newItem['productDes'] = $_POST['itemDes'];
-        $newItem['price'] = $_POST['itemPrice'];
-        $newItem['productImg'] = $_POST['itemImg'];
-        $newItem['productID'] = $_POST['itemID'];
+        $newItem['productName'] = $_POST['productName'];
+        $newItem['productDes'] = $_POST['productDes'];
+        $newItem['price'] = $_POST['productPrice'];
+        $newItem['productImg'] = $_POST['productImg'];
+        $newItem['productID'] = $_POST['productID'];
         
         foreach ($_SESSION['cart'] as &$item) {
             if ($newItem['productID'] == $item['productID']) {
@@ -35,7 +36,9 @@
             array_push($_SESSION['cart'], $newItem);
         }
     }
-    
+
+
+
     //added by sam
     function displayCategories() { 
         global $dbConn;
@@ -49,8 +52,14 @@
             echo "<option value='".$record['catID']."'>" . $record['catName'] . "</option>";
         }
     }
+    
+
+    
+  
+    
     function filterProducts() {
         global $dbConn;
+        global $items;
         
         $namedParameters = array();
         $product = $_GET['productName'];
@@ -94,28 +103,48 @@
                 
                   $sql .= " ORDER BY productName";
             }
-    
-            
         }
     
         $stmt = $dbConn->prepare($sql);
         $stmt->execute($namedParameters);
         $records = $stmt->fetchAll(PDO::FETCH_ASSOC);  
-        //print_r($records);
         
-        echo "<table class='table'>";
-        foreach ($records as $record) {
-            echo '<tr>';
-            echo "<a href='productInfo.php?productID=".$record['productID']."'>";
-            //echo $record['productID'];
-            echo "<td><img src='" . $record['productImg'] . " '></td>";
-            echo "<td><h4>[<a onclick='openModal()' target='productModal' href='productInfo.php?productID=".$record['productID']."'>".$record['productName']."</a>]</h4></td>";
-            echo "<td><h4>$" . " " . $record['price'] . " V-Bucks" . "</h4></td>";
-            
-            echo '</tr>';
+        if(isset($records)) {  
+            echo "<table class='table'>";
+            foreach ($records as $record) {
+                $productID = $record['productID'];
+                $productName = $record['productName'];
+                $productPrice = $record['price'];
+                $productImage = $record['productImg'];
+                
+                
+                
+                echo '<tr>';
+                // echo "<a href='productInfo.php?productID=".$record['productID']."'>";
+                //echo $record['productID'];
+                echo "<td><img src='" . $productImage . " '></td>";
+                echo "<td><h4>" . $productName . "</h4></td>";
+                echo "<td><h4>[<a onclick='openModal()' target='productModal' href='productInfo.php?productID=".$record['productID']."'>". "More Info" ."</a>]</h4></td>";
+                echo "<td><h4>" . " " . $productPrice . " V-Bucks" . "</h4></td>";
+               
+                // Hidden input element
+                echo "<form method='post'>";
+                echo "<input type='hidden' name='productName' value='$productName'>";
+                echo "<input type='hidden' name='productPrice' value='$productPrice'>";
+                echo "<input type='hidden' name='productImage' value='$productImage'>";
+                echo "<input type='hidden' name='productID' value='$productID'>";
+                
+                if ($_POST['productID'] == $productID) {
+                    echo '<td><button class = "btn btn-success">Added</button></td>';
+                } else {
+                    echo '<td><button class="btn btn-warning">Add</button></td>';
+                }
+                echo '</tr>';
+                echo '</form>';
+                
+            }
+            echo "</table>";
         }
-        echo "</table>";
-    
     }
 ?>
 
@@ -145,8 +174,22 @@
         img {
             width:200px;
         }
+        body {
+            background-image: url("img/4685.jpg"); /* new tag */
+            background-size: 100%;
+        } 
+        header {
+            text-align:center;
+            width: 100%;
+        }
+        #img_header {
+            width:650px;
+        }
     </style>
+    
+    
     <body>
+    
     <div class='container'>
         <div class='text-center'>
             
@@ -154,7 +197,7 @@
             <nav class='navbar navbar-default - navbar-fixed-top'>
                 <div class='container-fluid'>
                     <div class='navbar-header'>
-                        <a class='navbar-brand' href='#'>Fortnite MiniMart</a>
+                        <a class='navbar-brand' href='#'><img src="https://fontmeme.com/permalink/181107/4bb525cda1d6a2d85d45e7f20cd305b1.png" alt="tattoo-fonts"></a>
                     </div>
                     <ul class='nav navbar-nav'>
                         <li><a href='index.php'>Home</a></li>
@@ -167,30 +210,43 @@
             <br /> <br /> <br />
             
             <header>
-                <h1>Welcome to Fortnite MiniMart!</h1>
+                <!--<div id="dv_header"><h1>Welcome to Fortnite MiniMart!</h1></div>-->
+                <img src="https://fontmeme.com/permalink/181107/4bb525cda1d6a2d85d45e7f20cd305b1.png" alt="tattoo-fonts" id="img_header">
             </header>
             </br></br>
             
             <!-- Search Form -->
             <center><div id="dv">
             <form>
+                <table>
+                    <tbody>
+                    <tr>
+                    <td><b>Product:</b> <input type="text" name="productName" placeholder="Product keyword" /> </br></br></td>
+                    <td>
+                        <b>Category:</b> 
+                            <select name="category">
+                               <option value=""> Select one </option>
+                               <?=displayCategories()?>
+                            </select>
+                        </br></br>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>
+                        <b>Price:</b> From: <input type="text" name="priceFrom" size="7"  /> 
+                        To: <input type="text" name="priceTo" size="7" />
+                    </br></br>
+                    </td>
+                    <td>
+                        <b>Order By:</b>
+                        Price <input type="radio" name="orderBy" value="productPrice">
+                        Name <input type="radio" name="orderBy" value="productName">
+                        </br></br>
+                    </td>
+                    </tr>
+                    </tbody>
+                </table>
                 
-                <b>Product:</b> <input type="text" name="productName" placeholder="Product keyword" /> </br></br>
-                
-                <b>Category:</b> 
-                <select name="category">
-                   <option value=""> Select one </option>
-                   <?=displayCategories()?>
-                </select>
-                </br></br>
-                
-                <b>Price:</b> From: <input type="text" name="priceFrom" size="7"  /> 
-                 To: <input type="text" name="priceTo" size="7" />
-                </br></br>
-                <b>Order By:</b>
-                Price <input type="radio" name="orderBy" value="productPrice">
-                Name <input type="radio" name="orderBy" value="productName">
-                </br></br>
                 <input type="submit" name="submit" value="Search!"/>
             </form>
             </br></br>

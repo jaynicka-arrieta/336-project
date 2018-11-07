@@ -1,0 +1,31 @@
+table {
+    background-color: orange;
+    border-radius: 15px;
+}
+a {
+    font-family: 'Economica';
+    color: green;
+}
+
+ input, select {
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    
+    input[type=submit] {
+        width: 10%;
+        background-color: aqua;
+        color: black;
+        padding: 10px 15px;
+        margin: 3px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+        background-color: green;
+    }
