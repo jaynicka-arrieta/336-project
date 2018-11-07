@@ -1,7 +1,7 @@
 <?php
 
 include 'inc/dbConnection.php';
-$dbConn = startConnection("fortnite");
+    $dbConn = startConnection("fortnite");
 
 function displayProductInfo(){
     global $dbConn;

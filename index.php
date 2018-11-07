@@ -53,9 +53,7 @@
         }
     }
     
-
     
-  
     
     function filterProducts() {
         global $dbConn;
@@ -116,9 +114,8 @@
                 $productName = $record['productName'];
                 $productPrice = $record['price'];
                 $productImage = $record['productImg'];
-                
-                
-                
+                $productDes = $record['productDes'];
+            
                 echo '<tr>';
                 // echo "<a href='productInfo.php?productID=".$record['productID']."'>";
                 //echo $record['productID'];
@@ -133,6 +130,7 @@
                 echo "<input type='hidden' name='productPrice' value='$productPrice'>";
                 echo "<input type='hidden' name='productImage' value='$productImage'>";
                 echo "<input type='hidden' name='productID' value='$productID'>";
+                echo "<input type='hidden' name='productDes' value='$productDes'>";
                 
                 if ($_POST['productID'] == $productID) {
                     echo '<td><button class = "btn btn-success">Added</button></td>';

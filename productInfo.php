@@ -2,7 +2,7 @@
 session_start();
 
 include 'inc/dbConnection.php';
-$dbConn = startConnection("fortnite");
+    $dbConn = startConnection("fortnite");
 include 'inc/functions.php';
 
 if (isset($_GET['productID'])) {
